@@ -1,0 +1,11 @@
+[package]
+name = "reqewest_issue"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+axum = "0.7.7"
+reqwest = { version = "0.12.9", features = ["blocking", "multipart", "rustls-tls"] }
+tokio = { version = "1.41.1", features = ["full"] }
+tracing = "0.1.40"
+tracing-subscriber = "0.3.18"
