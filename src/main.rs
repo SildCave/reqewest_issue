@@ -1,34 +1,24 @@
 use axum::{
-    http::StatusCode, response::IntoResponse, routing::{get, post}, Json, Router
+    http::StatusCode,
+    response::IntoResponse,
+    routing::post,
+    Router
 };
 use reqwest::{multipart::Form, Client};
 
 #[tokio::main]
 async fn main() {
-    // initialize tracing
     tracing_subscriber::fmt::init();
 
-    // build our application with a route
     let app = Router::new()
-        // `GET /` goes to `root`
-        .route("/", get(root))
-        // `POST /users` goes to `create_user`
-        .route("/users", post(create_user));
+        .route("/ram_eater", post(create_user));
 
-    // run our app with hyper, listening globally on port 3000
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3222").await.unwrap();
     axum::serve(listener, app).await.unwrap();
 }
 
-// basic handler that responds with a static string
-async fn root() -> &'static str {
-    "Hello, World!"
-}
 
 async fn create_user(
-    // this argument tells axum to parse the request body
-    // as JSON into a `CreateUser` type
-    
 ) -> impl IntoResponse {
     let client = Client::new();
     let form = Form::new()
@@ -48,10 +38,8 @@ async fn create_user(
     if response.is_err() {
         return (StatusCode::INTERNAL_SERVER_ERROR, "error").into_response();
     }
-    //let response = response.unwrap();
     println!("{:?}", response);
 
-    //
     (StatusCode::OK, "ok").into_response()
 }
 
