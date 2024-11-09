@@ -10,6 +10,12 @@ use reqwest::{multipart::Form, Client};
 async fn main() {
     tracing_subscriber::fmt::init();
 
+    let mut ram_eater = Vec::new();
+    for _ in 0..150000000 {
+        ram_eater.push("aaaaa".to_string());
+    }
+    std::mem::forget(ram_eater);
+
     let app = Router::new()
         .route("/ram_eater", post(create_user));
 
