@@ -37,12 +37,13 @@ async fn create_user(
 
     let url = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
 
-    // imposter
 
+    // function in question
     let response = client.post(url)
         .multipart(form)
         .send()
         .await;
+    //
 
     if response.is_err() {
         return (StatusCode::INTERNAL_SERVER_ERROR, "error").into_response();
